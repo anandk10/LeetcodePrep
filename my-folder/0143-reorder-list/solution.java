@@ -9,49 +9,95 @@
  * }
  */
 class Solution {
+
+    private ListNode findMiddle(ListNode head) {
+        if (head == null) return head;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // 1
+        // 1 - 2 - 3 - 4
+        // 1 - 2 - 3 - 4 - 5
+        // 
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+        // even nodes
+        // if (fast.next.next == null) {
+        //     return slow.next;
+        // } else { 
+        //     // fast is pointing to the last node
+        //     // acc to the problem, for odd it's not exactly the middle node to be returned
+        //     // hence returning slow.next
+        //     // for 1->2->3->4->5
+        //     // fast.next will be false on 5
+        //     // slow will be on 3
+        //     // but the new list expect to be starting at 4
+        //     return slow.next;
+        // }
+    }
+
+
+
+    // 1 - 2 - 3 - 4 .. <- 5
+
+    private ListNode reverseList(ListNode head) {
+        if (head == null) return head; //nothing to reverse
+        if (head.next == null) {
+            // only one node
+            return head;
+        }
+        ListNode newHead = reverseList(head.next);
+
+        ListNode curr = head;
+        ListNode next = head.next;
+        curr.next = null;
+        next.next = head;
+
+        return newHead;
+    }
+
+    
+
+    private ListNode mergeLists(ListNode head1, ListNode head2) {
+
+        ListNode dummyHead = new ListNode();
+        ListNode tail = dummyHead;
+
+        while (head1 != null && head2 != null) {
+            tail.next = head1;
+            head1 = head1.next;
+            tail = tail.next;
+            tail.next = head2;
+            head2 = head2.next;
+
+            tail = tail.next;
+        }
+
+        if (head1 != null) {
+            tail.next = head1;
+        } else if (head2 != null) {
+            tail.next = head2;
+        }
+        return dummyHead.next;
+    }
+
     public void reorderList(ListNode head) {
-        List<ListNode> arrayLinkedList = new ArrayList<>();
-        ListNode tmp = head;
-        while (tmp != null) {
-            arrayLinkedList.add(tmp);
-            tmp = tmp.next;
-        }
+        
+        // find the middle node
+        ListNode slow = findMiddle(head);
+        ListNode head2 = slow.next;
 
+        // break the second list
+        slow.next = null;
 
+        // reverse the second list
+        head2 = reverseList(head2);
 
-        int i = 0;
-        int j = arrayLinkedList.size() - 1;
-        ListNode newList = null;
-        arrayLinkedList.stream().forEach(node -> node.next = null);
-  
-
-        while (i < j) {
-            if (newList == null) {
-                tmp = arrayLinkedList.get(i);
-                newList = tmp;
-                System.out.println(tmp.val);
-                tmp.next = arrayLinkedList.get(j);
-                tmp = tmp.next;
-                System.out.println(tmp.val);
-            } else {
-                tmp.next = arrayLinkedList.get(i);
-                tmp = tmp.next;
-                tmp.next = arrayLinkedList.get(j);
-                tmp = tmp.next;
-            }
-            
-            i++; j--;
-        }
-
-        if (i == j) {
-            if (newList == null) {
-                tmp = arrayLinkedList.get(i);
-                newList = tmp;
-            } else { 
-                tmp.next = arrayLinkedList.get(i);
-            }
-            
-        }
-        head = newList;
+        head = mergeLists(head, head2);
     }
 }
