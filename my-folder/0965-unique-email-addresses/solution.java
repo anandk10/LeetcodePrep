@@ -1,39 +1,33 @@
 class Solution {
     public int numUniqueEmails(String[] emails) {
+        /**
         
-//          "test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com"
+        email . + @ local name domain name
+        local name without .
+        local name +  first + .. ignored
         
-//         testemail@leetcode.com
-//         tokenize on last occurring  '@'
-
-//         rules are if . occurs ignore just the .
-//         if + occurs then ignore everything after that in the local name
+        
+        
+        */
+        Set<String> distinctEmail = new HashSet<>();
+        for (String email : emails) {
             
-//         for domain name that's not true. 
-        Set<String> uniqueEmails = new HashSet<>();
-        for (String email: emails) {
-            // System.out.println(email);
-            String[] tokenizedEmail = email.split("@");
+            // try to operate on local name
+            // split by '@'
             
-            String materializedEmail = applyRules(tokenizedEmail[0])
-                .append("@")
-                .append(tokenizedEmail[1]).toString();
-            if(!uniqueEmails.contains(materializedEmail)) {
-                uniqueEmails.add(materializedEmail);
+            String localName = email.substring(0, email.indexOf('@'));
+            // System.out.print(localName);
+            int plusIndex = localName.indexOf('+');
+            
+            if (plusIndex > 0) {
+                localName = localName.substring(0, plusIndex);
             }
-        }
-        return uniqueEmails.size();
             
-    }
-    
-    private StringBuilder applyRules(String name) {
-        StringBuilder localName = new StringBuilder();
-        for(int i=0; i<name.length(); i++) {
-            if (name.charAt(i) == '+') break;
-            if (name.charAt(i) == '.') continue;
-            localName.append(name.charAt(i));
+            localName = localName.replaceAll("\\.", "");
+            distinctEmail.add(localName + email.substring(email.indexOf('@')));
+            
         }
-        System.out.println(localName);
-        return localName;
+        // System.out.println(distinctEmail);
+        return distinctEmail.size();
     }
 }
