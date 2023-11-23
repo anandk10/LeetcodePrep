@@ -1,3 +1,5 @@
+import java.io.*;
+
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         // ["eat","tea","tan","ate","nat","bat"]
@@ -70,8 +72,10 @@ class Solution {
                                 .add(str);
                         }
             );
-        return new ArrayList<>(counters.values());
+        PrintStream o = System.out;
 
+        o.println(counters.keySet());
+        return new ArrayList<>(counters.values());
 
         // Solution 4: Slightly slow but more functional style. - Uncomment function returnSortedCharStr
         // Map<String, List<String>> counters = Arrays.stream(strs)
@@ -81,6 +85,12 @@ class Solution {
         // return new ArrayList<>(counters.values());
 
 
+    }
+
+    public static String sortString(String str) {
+        char[] arr = str.toCharArray();
+        Arrays.sort(arr);
+        return String.valueOf(arr);
     }
 
     // Solution 4
