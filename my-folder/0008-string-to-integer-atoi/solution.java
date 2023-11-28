@@ -1,79 +1,77 @@
 class Solution {
     public int myAtoi(String s) {
+        
+        // traverse the string s
+        // if while space - ignore
+        // if encounter negative - make note of it
+        // for digits record it and multiply by 10 to get the result
+        // res = 0;
+        // 42 - 
+        // 4
+        // res = res * 10 + 4
+        // res = 4
 
-        int MAX_INT = Integer.MAX_VALUE;
-        int MIN_INT = Integer.MIN_VALUE;
+        // 2
+        // res = res * 10 + 2
+        // res = 4 * 10 + 2
+        // res = 42
+        // res > MAX_INT then return MAX_INT;
+        // res < MIN_INT then return MIN_INT;
 
-        // 1. whitespace
-        // 2. +/-
-        // 3. digits
-        // 4. number should be between MAX_INT and MIN_INT
-        // 5. letters
 
-        // Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.
+        // ignore the whitespace
+        int n = s.length();
 
-        // Ignore whitespace , and characters after the digits.
-        // if characters are before digits, return 0;
-        // no number - then return 0
+        if( n == 0 || s.trim().isEmpty()) return 0;
+        
+        int i = 0;
+        for ( ;i < n && s.charAt(i) == ' '; i++) {}
 
-        int res = 0;
-        int negative = 1; // postive
-
-        // 42
-        //      -250
-        //   +25
-        //   
-        int length = s.length();
-        int i;
-
-        for (i=0; i < length && s.charAt(i) == ' '; i++);
-
-        if (i==length) {
-            return res;
-        }// reached end of string
+        // now either it should be number or a sign indicator
+        
+        int sign = 1;
 
         if (s.charAt(i) == '-') {
-            negative = -1;
+            sign = -1;
             i++;
-        } else if(s.charAt(i) == '+') {
+        } else if (s.charAt(i) == '+') {
             i++;
         }
 
-        // if (Character.isAlphabetic(s.charAt(i))) return res;
 
-        for(; i < length; i++) {
-            if (!Character.isDigit(s.charAt(i))) { break; }
+        // now its a chance for the digits
+        int res = 0;
+        for(; i < n ; i++) {
+
             if (Character.isDigit(s.charAt(i))) {
 
-                // res * 10 > MAX_INT // avoid
-                // res * 10 - overflow
-                // res = ....5
-                // MAX_INT = ....7
-                // MIN_INT = ....8
-                // res = ....9, negative = -1
-                if (res > MAX_INT / 10) {
-                    if (negative == -1) { //negative ; MIN_INT
-                        return MIN_INT;
-                    } else {
-                        // postive ; MAX_INT
-                        return MAX_INT;
-                    }
-                } else if (res == MAX_INT / 10 && Character.getNumericValue(s.charAt(i)) > 7){
-                    if (negative == -1) { //negative ; MIN_INT
-                        return MIN_INT;
-                    } else {
-                        // postive ; MAX_INT
-                        return MAX_INT;
-                    }
+                // handling 2147483647 - edge
+                // res = 2147483640 + 8
+
+                // handle 21474836489999
+                // res * 10 > MAX_VALUE - wont work because res * 10 itself will overflow
+                
+                if (res > Integer.MAX_VALUE / 10) {
+                    // need to check the sign 
+                    return sign == -1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                } else if (res == Integer.MAX_VALUE / 10 && Character.getNumericValue(s.charAt(i)) > 7) {
+                    return sign == -1 ? Integer.MIN_VALUE : Integer.MAX_VALUE; 
                 }
+                // System.out.println(res);
 
                 res = res * 10 + Character.getNumericValue(s.charAt(i));
+            } else {
+                break;
             }
-
         }
+        System.out.println(Integer.MAX_VALUE);
 
-        return res * negative;
+        res = res * sign;
+        return res;
 
-        
+
+
+
+
     }
 }
