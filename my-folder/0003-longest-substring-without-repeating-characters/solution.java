@@ -1,28 +1,43 @@
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        
-        // stores uniquely seen characters in that sliding window
+        /**
+        "abcabcbb"
+              i
+               j
+
+        c, b
+
+        */
+    
         Set<Character> seen = new HashSet<>();
 
-        int left = 0;
-        int right = 0;
-        int longest = 0;
-        for(;right < s.length(); right++) {
-            if (!seen.contains(s.charAt(right))) {
-                seen.add(s.charAt(right));
-                longest = Math.max(longest, right - left + 1);
+        int size = 0;
+
+        int i = 0, j = 0;
+
+        while(j < s.length()) {
+            if (!seen.contains(s.charAt(j))) {
+                seen.add(s.charAt(j));
+                size = Math.max(size, j - i + 1);
+                j++;
             } else {
-                // shrink the sliding window until the duplicate element is out of the window
-                // also remove those characters from the set
-                while (seen.contains(s.charAt(right))) {
-                    seen.remove(s.charAt(left));
-                    left++;
+                
+                while(seen.contains(s.charAt(j))) {
+                    seen.remove(s.charAt(i));
+                    i++;
                 }
-                seen.add(s.charAt(right));
+                
             }
         }
-        return longest;
+        return size;
 
     }
 }
 
+/**
+
+substring - sequence - sequential access
+Longest - maximize  - max() - size
+w/o repeating character - aux data structure Set
+
+ */
