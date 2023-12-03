@@ -20,33 +20,26 @@ class Node {
 
 class Solution {
 
-    Map<Node, Node> lookupClones;
+    private Node _cloneGraphUsingDFS(Node node, Map<Node, Node> clonedGraphNodes) {
+        if (node == null) return node;
+
+        if (clonedGraphNodes.containsKey(node)) return clonedGraphNodes.get(node);
+
+        Node clonedNode = new Node(node.val);
+        List<Node> clonedNeighbors = new ArrayList<>();
+        clonedNode.neighbors = clonedNeighbors;
+
+        clonedGraphNodes.put(node, clonedNode);
 
 
-    private Node dfs(final Node origNode) {
-
-        if (origNode == null)
-            return null;
-        
-        // if exists in lookupClones map; return that node
-        Node alreadyCloned = lookupClones.get(origNode);
-        if (alreadyCloned != null) {
-            return alreadyCloned;
+        for (Node neighbor :  node.neighbors) {
+            clonedNode.neighbors.add(_cloneGraphUsingDFS(neighbor, clonedGraphNodes));
         }
 
-        Node clonedNode = new Node(origNode.val);
-        lookupClones.put(origNode, clonedNode);
-
-        for (Node neighbor : origNode.neighbors) {
-            Node clonedNeighbor = dfs(neighbor);
-            clonedNode.neighbors.add(clonedNeighbor);
-        }
         return clonedNode;
     }
 
     public Node cloneGraph(Node node) {
-        
-        lookupClones = new HashMap<>();
-        return dfs(node);
+        return _cloneGraphUsingDFS(node, new HashMap<>());
     }
 }
