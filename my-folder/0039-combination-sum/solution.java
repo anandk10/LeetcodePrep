@@ -1,40 +1,40 @@
 class Solution {
 
-    List<List<Integer>> finalSolution;
+    List<List<Integer>> result;
 
-    private void backtrack(final int[] candidates, int curr, int target, List<Integer> solution) {
 
-        // base condition
-        if (target == 0) {
-            finalSolution.add(new ArrayList<>(solution));
+    private void dfs (int index, List<Integer> current, int[] candidates, int remTotal) {
+        // base cases
+        if (index == candidates.length || remTotal < 0) {
             return;
         }
 
-        if (curr == candidates.length || target < 0) {
+        if (remTotal == 0) {
+            // got the answer
+            result.add(new ArrayList<>(current));
             return;
         }
 
-        // including element
-        solution.add(candidates[curr]);
+        // include the ith number
+        current.add(candidates[index]);
 
-        // calling the backtrack with reduced target
-        backtrack(candidates, curr, target - candidates[curr], solution);
+        // now for other candidates, call dfs again
+        // decrement the total here, because we have included the ith number
+        dfs(index, current, candidates, remTotal - candidates[index]);
+        
+        // now the right side of the decision tree
+        // don't include the number
+        current.remove(current.size() - 1);
 
-        // excluding element
-        solution.remove(solution.size() - 1);
-
-        // calling the backtrack with the intact target
-        // curr + 1 is ok, because we are guaranteed that the values in candidates are unique
-        // if not the case, then we would keep incrementing curr until the next non-duplicate value
-        backtrack(candidates, curr + 1, target, solution);
+        // since the number is excluded from the consideration
+        // move the index further, also dont decrement the total
+        dfs(index + 1, current, candidates, remTotal);
 
     }
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        finalSolution = new ArrayList<>();
-        // Arrays.sort(candidates);
-        List<Integer> solution = new ArrayList<>();
-        backtrack(candidates, 0, target, solution);
-        return finalSolution;
+        this.result = new ArrayList<>();
+        dfs(0, new ArrayList<>(), candidates, target);
+        return this.result;
     }
 }
