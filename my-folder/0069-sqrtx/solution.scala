@@ -7,7 +7,7 @@ object Solution {
 
         var left = 0
         var right = x // can cause overflow for Int.MaxValue
-        println(right)
+        // println(right)
         var exponent = 2
         while (left < right) {
             var mid = left + (right - left) / 2
