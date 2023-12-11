@@ -1,26 +1,37 @@
 class Solution {
-
-    // [-2,1,-3,4,-1,2,1,-5,4]
-
-
     public int maxSubArray(int[] nums) {
-        // The idea behind solving this problem is to drop the negative sum , and start over again.
-        // while doing that, record the max sum always. the objective is to return the sum and not
-        // the subarray , so be little greedy
-
-        int max = nums[0]; // starting max
-
-        int currSum = 0;
-
-        for(int num : nums) {
-            if(currSum < 0) { //negative sum, needs to be dropped
-                currSum = 0; // dropping means resetting to 0
-            } 
-
-            currSum += num;
-            max = Math.max(currSum, max);
+        
+        
+        // [-2,1,-3,4,-1,2,1,-5,4]
+        // currMax = -2
+        // currMax rest to 0 ; 
+        // currMax += 1; currMax = 1;  max = (1, 0) = 1 
+        // currMax += -3; currMax = -2; max = (1, -2) = 1 
+        // currMax reset to 0 ; 
+        // currMax += 4; currMax = 4 ; max = (1, 4) = 4
+        // currMax += -1; currMax = 3 ; max = (4, 3) = 4
+        // currMax += 2; currMax = 5 ; max = (4, 5) = 5
+        // currMax += 1; currMax = 6        // everytime currMax updates store the max
+                                // ; max = (5, 6) = 6
+        // currMax += -5; currMax = 1;  max = (6, 1) = 6
+        // currMax += 4; currMax = 5;  max = (6, 5) = 6
+        
+        
+        int currMax = nums[0];
+        int max = nums[0];
+        
+        for(int i = 1; i < nums.length; i++) {
+            // currMax if becomes negative, then reset the currMax
+            // we are treating currMax as a prefixSum that we don't 
+            // desire to be negative
+            if (currMax < 0) {
+                currMax = 0;
+            }
+            
+            currMax += nums[i];
+            max = Math.max(max, currMax);
+            
         }
-
         return max;
     }
 }
