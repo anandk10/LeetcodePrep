@@ -1,7 +1,7 @@
 class Solution {
 
     // top down
-    private int maxCoinsForTotal(int[] coins, int total, Map<Integer, Integer> map) {
+    private int maxCoinsForTotalTopDown(int[] coins, int total, Map<Integer, Integer> map) {
 
         if (total == 0) return 0;
 
@@ -15,7 +15,7 @@ class Solution {
             } 
 
             // calculate for total - coin
-            int val = maxCoinsForTotal(coins, total - coin, map);
+            int val = maxCoinsForTotalTopDown(coins, total - coin, map);
 
             // if min val of number of coins received then update
             if (val < min) {
@@ -65,9 +65,9 @@ class Solution {
         if (amount <= 0) return 0;
 
         System.out.println("Bottom up : " + maxCoinsForTotalBottomUp(coins, amount));
+        
         Map<Integer, Integer> map = new HashMap<>();
-
-        int counts = maxCoinsForTotal(coins, amount, map);
+        int counts = maxCoinsForTotalTopDown(coins, amount, map);
 
         if (counts == Integer.MAX_VALUE) {
             return -1;
