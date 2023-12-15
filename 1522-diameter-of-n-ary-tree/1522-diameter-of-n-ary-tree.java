@@ -27,6 +27,11 @@ class Solution {
     private int solution1(Node root) {
         if (root == null) return 0;
         
+        // Even though it is N ary tree, the diameter only
+        // considers the path with only two maximum heights
+        // Therefore rather than storing all the heights 
+        // and then focussing on the two max values
+        // I'm maintaining two max variables instead
         int max1 = 0;
         int max2 = 0;
         
@@ -40,8 +45,12 @@ class Solution {
             }
         }
         
+        // Same idea as computing diameter for binary tree
+        // Look for the summation of max1 and max2 
         diameter = Math.max(diameter, max1 + max2);
         
+        
+        // Return the max height from either of the subtrees
         return 1 + Math.max(max1, max2);
         
     }
