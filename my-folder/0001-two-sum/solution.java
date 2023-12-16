@@ -1,43 +1,35 @@
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        // Solution 1: Bruteforce
-
-        // Iterate over the nums array 
-        // for (int i=0; i<nums.length; i++) {
-        //     for (int j=i+1; j<nums.length; j++) {
-        //         if(nums[i] + nums[j] == target) {
-        //             return new int[]{i, j};
-        //         }
-        //     }
-        // }
-        // return new int[]{0, 0};
+    
+    private int[] solveTwoSum(int[] nums, int target) {
+        // traverse the nums and if you're seeing that num
+        // for the first time then add it to a Map
+        // for every number compare if the target - num is
+        // hashed in the map. this indicates that the previous
+        // num that forms a pair is seen.
         
-        // O(N^2) 
-
-        // Solution 2: Using HashMap
-        // HashMap - <element, index>
-
-        // Map<Integer, Integer> counters = new HashMap<>();
-        Map<Integer, Integer> counters = new java.util.Hashtable<>();
-
-
-        // target = element1 + element2
-        // Iterate over the elements and check if 
-        // target - element is found in the hashmap
-        // if yes, then return that index and pair it
-        // with the current index
-        // if no such pair exists, then add the current 
-        // element to the hashmap along with its index
-
-        for (int i=0; i<nums.length; i++) {
-            Integer j = counters.get(target - nums[i]);
-            if (j != null) {
-                return new int[]{i, j};
-            }
-
-            counters.put(nums[i], i);
+        if (nums.length < 2) {
+            return new int[]{};
         }
-
-        return new int[]{0, 0};
+        
+        int[] res = new int[2];
+        
+        Map<Integer, Integer> pairSum = new HashMap<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            // found a pair
+            if (pairSum.containsKey(target - nums[i])) {
+                return new int[]{pairSum.get(target - nums[i]), i};
+            }
+            
+            // haven't found a pair yet
+            pairSum.put(nums[i], i); 
+        }
+        
+        return res;
+        
+    }
+    
+    public int[] twoSum(int[] nums, int target) {
+        return solveTwoSum(nums, target);    
     }
 }
