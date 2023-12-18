@@ -1,0 +1,38 @@
+class Solution {
+    
+    
+    /**
+    Sliding window problem where left and right pointer indicate a window
+    that yields max profit on buy and selling stock
+    if we achieve a profit then keep moving towards right
+    if we achieve a loss then update the left to the current day where we sold
+    i.e. right
+    
+    */
+    private int maxProfitWithBuyAndSellOnDiffDays(int[] prices) {
+        // [7,1,5,3,6,4]
+        //    l r
+        int left = 0;
+        int right = left + 1; // sell happens always on day in future
+        
+        int maxProfit = 0;
+        
+        while (right < prices.length) {  // a general boundary of the window
+            if (prices[left] > prices[right]) {
+                // we made a loss
+                left = right;
+                right = left + 1;
+            } else {
+                // we made some profit, update our maxProfit
+                maxProfit = Math.max(maxProfit, prices[right] - prices[left]);
+                right += 1; // there may be a bigger profit in future
+            }
+        } 
+        
+        return maxProfit;
+    }
+    
+    public int maxProfit(int[] prices) {
+        return maxProfitWithBuyAndSellOnDiffDays(prices);
+    }
+}
