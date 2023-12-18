@@ -28,9 +28,6 @@ class Solution {
                 int profitWithoutDayJ = T[i][j - 1];
                 
                 
-                // performing transaction on day j means selling
-                // on day j
-                // prices[j];
                 
                 int earlierTransactionsMaxProfit = Integer.MIN_VALUE;
                 // sum up the earlier transaction's profit
@@ -40,6 +37,10 @@ class Solution {
                     Math.max(T[i - 1][m] - prices[m], earlierTransactionsMaxProfit);
                 }
                 
+                // performing transaction on day j means selling
+                // on day j and adding max profit gained by previous transaction
+                // upto the previous day
+                // prices[j];
                 int profitWithDayJ = prices[j] + earlierTransactionsMaxProfit;
                 
                 T[i][j] = Math.max(profitWithoutDayJ, profitWithDayJ);
@@ -86,6 +87,10 @@ class Solution {
                                         T[i - 1][j - 1] - prices[j - 1]
                                         );
 
+                // performing transaction on day j means selling
+                // on day j and adding max profit gained by previous transaction
+                // upto the previous day
+                // prices[j];
                 int profitWithDayJ = prices[j] + earlierTransactionsMaxProfit;
                 
                 T[i][j] = Math.max(profitWithoutDayJ, profitWithDayJ);
