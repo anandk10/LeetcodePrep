@@ -77,11 +77,6 @@ class Solution {
                 // profit from earlier day
                 int profitWithoutDayJ = T[i][j - 1];
                 
-                
-                // performing transaction on day j means selling
-                // on day j
-                // prices[j];
-                
                 earlierTransactionsMaxProfit = Math.max(
                                        earlierTransactionsMaxProfit,
                                         T[i - 1][j - 1] - prices[j - 1]
