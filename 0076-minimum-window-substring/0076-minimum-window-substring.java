@@ -64,7 +64,7 @@ class Solution {
                 haveChars.put(currChar, haveChars.get(currChar) - 1);
 
                 // does removing the currChar actually impact and is the count less then what we need
-                if (needChars.containsKey(currChar) && haveChars.get(currChar) < needChars.get(currChar)) {
+                if (needChars.containsKey(currChar) && haveChars.get(currChar).intValue() < (int) needChars.get(currChar)) {
                     haveCount--;
                 }
                 left += 1;
