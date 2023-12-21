@@ -44,7 +44,7 @@ class Solution {
             if (needChars.containsKey(currChar) && 
                 haveChars.get(currChar).intValue() == (int) needChars.get(currChar)) {
                     haveCount++;
-                System.out.println("Have count " + haveCount + " Need count " + needCount);
+                // System.out.println("Have count " + haveCount + " Need count " + needCount);
             }
 
             
