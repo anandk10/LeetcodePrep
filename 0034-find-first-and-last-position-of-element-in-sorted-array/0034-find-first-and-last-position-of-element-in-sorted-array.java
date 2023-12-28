@@ -1,4 +1,21 @@
 class Solution {
+
+    /**
+    
+    The strategy here is the run two binary searches with the target value
+    findLowPoint()
+        keep moving the right pointer until you're finding nums[mid] <= target
+            so you will push towards left
+        otherwise move left towards right
+        finally nums[left] is the low index
+
+    findHighPoint()
+        keep moving the left pointer until you're finding nums[mid] >= target
+            so you will push towards right
+        otherwise move right towards left
+        finally nums[right] is the high index
+     */
+
     public int[] searchRange(int[] nums, int target) {
         // The strategy here is to run binary search twice
         // 1. find the lowest index
