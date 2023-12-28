@@ -34,7 +34,8 @@ class Solution {
     */
     
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        return getBuckets(root);
+        // return getBuckets(root);
+        return getBucketsWithoutSorting(root);
     }
     
     
@@ -77,6 +78,52 @@ class Solution {
         }
         
         return buckets.values().stream().collect(Collectors.toList());
+    }
+
+
+    private List<List<Integer>> getBucketsWithoutSorting(final TreeNode node) {
+        if (node == null) return Collections.EMPTY_LIST;
+        
+        Map<Integer, List<Integer>> buckets = new HashMap<>();
+        Queue<TreeNodeAndIndex> queue = new LinkedList<>();
+        int minIdx = 0;
+        int maxIdx = 0;
+
+        // push the root node
+        queue.offer(new TreeNodeAndIndex(node, 0));
+        
+        while (!queue.isEmpty()) {
+            
+            TreeNodeAndIndex tmp = queue.poll();
+            int bucketIdx = tmp.bucketIdx;
+            TreeNode tmpNode = tmp.node;
+            
+            // set the values for the bucket
+            buckets.computeIfAbsent(bucketIdx, idx -> new ArrayList<>()).add(tmpNode.val);
+            
+            // offer the left child if present
+            if (tmpNode.left != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.left, bucketIdx - 1));
+                minIdx = Math.min(minIdx, bucketIdx - 1);
+            }
+
+            // offer the right child if present
+            if (tmpNode.right != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.right, bucketIdx + 1));
+                maxIdx = Math.max(maxIdx, bucketIdx + 1);
+            }
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+        while (minIdx <= maxIdx) {
+            result.add(buckets.get(minIdx));
+            minIdx += 1;
+        }
+        
+        return result;
+
+
+        // return buckets.values().stream().collect(Collectors.toList());
     }
     
 }
