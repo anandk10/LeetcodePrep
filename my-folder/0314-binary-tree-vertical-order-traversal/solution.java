@@ -14,49 +14,132 @@
  * }
  */
 class Solution {
+    
+    
+    /**
+    The idea here is to perform a BFS traversal (Queue) 
+    UNSORTED VERSION
+    use a Map (HashMap) for bucketing nodes from each level
 
+    Queue should accept a pair of TreeNode and the index
+    
+    going to the left means idx - 1
+    calculate and save if idx - 1 is the new minimum
+    
+    going to the right means idx + 1
+    calculate and save if idx + 1 is the new maximum
+
+    HashMap will have all the buckets of values correctly done however no ordering. 
+    But the minimum to maximum range traversal will help to get the sorted column view
+
+
+    SORTED VERSION
+    use a Map (TreeMap) for bucketing nodes from each level
+    
+    Queue should accept a pair of TreeNode and the index
+    
+    going to the left means idx - 1
+    
+    going to the right means idx + 1
+    
+    finally TreeMap values are the answer
+    
+    T - O(N log N) due to sorted nature of TreeMap
+    S - O(N)
+    
+    */
+    
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        // return getBuckets(root);
+        return getBucketsWithoutSorting(root);
+    }
+    
+    
     class TreeNodeAndIndex {
         TreeNode node;
-        Integer bucketIdx;
-        TreeNodeAndIndex(TreeNode node, Integer bucketIdx) {
+        int bucketIdx;
+        TreeNodeAndIndex(TreeNode node, int bucketIdx) {
             this.node = node;
             this.bucketIdx = bucketIdx;
         }
-
-        public String toString() {
-            return "[" + node.val + ", " + bucketIdx + "]";
-        }
     }
-    private Map<Integer, List<Integer>> bucketWithBFS(TreeNode root) {
-        if (root == null) return Collections.EMPTY_MAP;
+    
+    private List<List<Integer>> getBuckets(final TreeNode node) {
+        if (node == null) return Collections.EMPTY_LIST;
+        
         Map<Integer, List<Integer>> buckets = new TreeMap<>();
         Queue<TreeNodeAndIndex> queue = new LinkedList<>();
         
-        queue.offer(new TreeNodeAndIndex(root, 0));
-        TreeNodeAndIndex tmp = null;
-        while(!queue.isEmpty()) {
+        // push the root node
+        queue.offer(new TreeNodeAndIndex(node, 0));
+        
+        while (!queue.isEmpty()) {
             
-            while (!queue.isEmpty()) {
-                tmp = queue.poll();
+            TreeNodeAndIndex tmp = queue.poll();
+            int bucketIdx = tmp.bucketIdx;
+            TreeNode tmpNode = tmp.node;
+            
+            // set the values for the bucket
+            buckets.computeIfAbsent(bucketIdx, idx -> new ArrayList<>()).add(tmpNode.val);
+            
+            // offer the left child if present
+            if (tmpNode.left != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.left, bucketIdx - 1));
+            }
 
-                buckets.computeIfAbsent(tmp.bucketIdx, 
-                            idx -> new ArrayList<Integer>())
-                       .add(tmp.node.val);
+            // offer the right child if present
+            if (tmpNode.right != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.right, bucketIdx + 1));
+            }
+        }
+        
+        return buckets.values().stream().collect(Collectors.toList());
+    }
 
-                if (tmp.node.left != null) {
-                    queue.offer(new TreeNodeAndIndex(tmp.node.left, tmp.bucketIdx - 1));
-                }
-                if (tmp.node.right != null) {
-                    queue.offer(new TreeNodeAndIndex(tmp.node.right, tmp.bucketIdx + 1));
-                } 
+
+    private List<List<Integer>> getBucketsWithoutSorting(final TreeNode node) {
+        if (node == null) return Collections.EMPTY_LIST;
+        
+        Map<Integer, List<Integer>> buckets = new HashMap<>();
+        Queue<TreeNodeAndIndex> queue = new LinkedList<>();
+        int minIdx = 0;
+        int maxIdx = 0;
+
+        // push the root node
+        queue.offer(new TreeNodeAndIndex(node, 0));
+        
+        while (!queue.isEmpty()) {
+            
+            TreeNodeAndIndex tmp = queue.poll();
+            int bucketIdx = tmp.bucketIdx;
+            TreeNode tmpNode = tmp.node;
+            
+            // set the values for the bucket
+            buckets.computeIfAbsent(bucketIdx, idx -> new ArrayList<>()).add(tmpNode.val);
+            
+            // offer the left child if present
+            if (tmpNode.left != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.left, bucketIdx - 1));
+                minIdx = Math.min(minIdx, bucketIdx - 1);
+            }
+
+            // offer the right child if present
+            if (tmpNode.right != null) {
+                queue.offer(new TreeNodeAndIndex(tmpNode.right, bucketIdx + 1));
+                maxIdx = Math.max(maxIdx, bucketIdx + 1);
             }
         }
 
-        return buckets;
-    }
+        List<List<Integer>> result = new ArrayList<>();
+        while (minIdx <= maxIdx) {
+            result.add(buckets.get(minIdx));
+            minIdx += 1;
+        }
+        
+        return result;
 
-    public List<List<Integer>> verticalOrder(TreeNode root) {
-        Map<Integer, List<Integer>> buckets = bucketWithBFS(root);
-        return buckets.values().stream().collect(Collectors.toList());   
+
+        // return buckets.values().stream().collect(Collectors.toList());
     }
+    
 }
