@@ -13,7 +13,7 @@ class Solution {
         for (int i = 0; i < nums.length;) {
 
             
-            if (stack.isEmpty() || nums[i] > 0) {
+            if (stack.isEmpty() || nums[i] > 0 || stack.peek() < 0) {
                 stack.push(nums[i]);
                 i++;
             } else {
@@ -27,10 +27,10 @@ class Solution {
 
                     // no collision 
                     // -ve -ve
-                    if (stack.peek() < 0) {
-                        stack.push(nums[i]);
-                        i++;
-                    } else {
+                    // if (stack.peek() < 0) {
+                    //     stack.push(nums[i]);
+                    //     i++;
+                    // } else {
                         // collision state
                         
                         if (stack.peek() > Math.abs(nums[i])) {
@@ -44,7 +44,7 @@ class Solution {
                             stack.pop();
                         }
 
-                    }
+                    // }
 
                 // }
 
