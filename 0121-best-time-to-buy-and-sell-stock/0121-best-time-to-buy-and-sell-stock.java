@@ -16,19 +16,7 @@ class Solution {
         int right = left + 1; // sell happens always on day in future
         
         int maxProfit = 0;
-        
-        // while (right < prices.length) {  // a general boundary of the window
-        //     if (prices[left] > prices[right]) {
-        //         // we made a loss
-        //         left = right;
-        //         right = left + 1;
-        //     } else {
-        //         // we made some profit, update our maxProfit
-        //         maxProfit = Math.max(maxProfit, prices[right] - prices[left]);
-        //         right += 1; // there may be a bigger profit in future
-        //     }
-        // } 
-        
+
         while (right < prices.length) {
             // be assertive about finding profit
             if (prices[left] < prices[right]) {
