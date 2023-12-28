@@ -18,7 +18,23 @@ class Solution {
     
     /**
     The idea here is to perform a BFS traversal (Queue) 
-    and use a Map (TreeMap) for bucketing nodes from each level
+    UNSORTED VERSION
+    use a Map (HashMap) for bucketing nodes from each level
+
+    Queue should accept a pair of TreeNode and the index
+    
+    going to the left means idx - 1
+    calculate and save if idx - 1 is the new minimum
+    
+    going to the right means idx + 1
+    calculate and save if idx + 1 is the new maximum
+
+    HashMap will have all the buckets of values correctly done however no ordering. 
+    But the minimum to maximum range traversal will help to get the sorted column view
+
+
+    SORTED VERSION
+    use a Map (TreeMap) for bucketing nodes from each level
     
     Queue should accept a pair of TreeNode and the index
     
