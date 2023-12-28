@@ -1,41 +1,29 @@
 class Solution {
-    
+
+
     /**
-    
-    [10,2,-5]
+    Stack empty : push any num
 
-    stack.empty?
-        push(10)
     else
-        peek() < 0 and num > 0
-            push(num)
-        
-        peek() > 0 and num < 0 
-            while !isempty() and peek() < abs(num)
-                pop()
-    
-    */
-    
-
-
-
+        check if num is positve 
+     */
     private int[] solution1(int[] nums) {
         Stack<Integer> stack = new Stack<Integer>();
 
         for (int i = 0; i < nums.length;) {
 
             
-            if (stack.isEmpty()) {
+            if (stack.isEmpty() || nums[i] > 0) {
                 stack.push(nums[i]);
                 i++;
             } else {
-                if (nums[i] > 0) {
-                    // no collision happen
-                    // -ve +ve
-                    // +ve +ve
-                    stack.push(nums[i]);
-                    i++;
-                } else {
+                // if (nums[i] > 0) {
+                //     // no collision happen
+                //     // -ve +ve
+                //     // +ve +ve
+                //     stack.push(nums[i]);
+                //     i++;
+                // } else {
 
                     // no collision 
                     // -ve -ve
@@ -58,7 +46,7 @@ class Solution {
 
                     }
 
-                }
+                // }
 
             }
 
