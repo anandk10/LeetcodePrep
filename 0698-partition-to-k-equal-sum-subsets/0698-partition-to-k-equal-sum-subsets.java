@@ -28,11 +28,10 @@ class Solution {
         
         if (subsetSum == targetSum) {
             // call the next backtrack solution
-            return backtrack(nums, nums.length - 1, k - 1, 0);
+            return backtrack(nums, 0, k - 1, 0);
         }
 
-        // for (int j = i; j < nums.length; j++) {
-        for (int j = i; j >= 0 ; j--) {
+        for (int j = i; j < nums.length; j++) {
 
             // is used num or subset sum > target
             if (used[j] || (subsetSum + nums[j]) > targetSum) continue;
@@ -41,9 +40,7 @@ class Solution {
 
             used[j] = true;
 
-            if (backtrack(nums, j - 1, k, subsetSum + nums[j])) {
-
-                // System.out.println("Found " + Arrays.toString(used));
+            if (backtrack(nums, j + 1, k, subsetSum + nums[j])) {
                 return true;
             }
 
@@ -64,17 +61,16 @@ class Solution {
 
         Arrays.sort(nums);
 
-        // swapping logic
-        // for (int i = 0; i < nums.length / 2 ; i++) {
-        //     nums[i] = nums[i] ^ nums[nums.length - 1 - i];
-        //     nums[nums.length - 1 - i] = nums[i] ^ nums[nums.length - 1 - i];
-        //     nums[i] = nums[i] ^ nums[nums.length - 1 - i];
-        // }
+        for (int i = 0; i < nums.length / 2 ; i++) {
+            nums[i] = nums[i] ^ nums[nums.length - 1 - i];
+            nums[nums.length - 1 - i] = nums[i] ^ nums[nums.length - 1 - i];
+            nums[i] = nums[i] ^ nums[nums.length - 1 - i];
+        }
 
         targetSum = sum / k;
         used = new boolean[nums.length];
 
-        return backtrack(nums, nums.length - 1, k, 0);
+        return backtrack(nums, 0, k, 0);
 
     }
 }
