@@ -19,10 +19,6 @@ class LRUCache {
             this.next = null;
             this.prev = null;
         }
-
-        public String toString() {
-            return "[" + this.key + "," + this.val + "]";
-        }
     }
 
     private int capacity;
