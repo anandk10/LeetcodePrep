@@ -43,7 +43,9 @@ class TimeMap {
 
         // perform the binary search on the entry
         int left = 0, right = entries.size() - 1;
-        int nextBest = entries.size();
+        // int nextBest = entries.size();
+
+        Entry nextBest = null;
         
         while (left <= right) {
             int mid = left + (right - left) / 2;
@@ -54,7 +56,7 @@ class TimeMap {
                 left = mid + 1;
 
                 // however lets save the current best
-                nextBest = Math.min(left, mid);
+                nextBest = entries.get(mid);
             } else {
                 // the mid timestamp is bigger than 
                 // expected timestamp, so now look 
@@ -63,10 +65,10 @@ class TimeMap {
             }
         }
 
-        if (nextBest == entries.size()) {
+        if (nextBest == null) {
             return "";
         }
-        return entries.get(nextBest).value;
+        return nextBest.value;
 
 
     }
