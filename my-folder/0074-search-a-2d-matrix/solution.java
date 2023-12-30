@@ -39,7 +39,7 @@ class Solution {
         int m = matrix.length - 1;  // number of rows
         int n = matrix[0].length - 1;  // number of columns
 
-        // Since the first integer ov every row is > the last integer of prev row
+        // Since the first integer on every row is > the last integer of prev row
         // Can consider this matrix to be a logical single dimensional array
         // and apply simple binary search on it. 
 
