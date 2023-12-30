@@ -1,5 +1,11 @@
 class Solution {
 
+    /**
+    Its easy because we need to just count the character
+    frequencies and check if any character's frequency 
+    can't be distributed
+     */
+
     public boolean makeEqual(String[] words) {
         // only one word then return true
         if (words.length == 1)
