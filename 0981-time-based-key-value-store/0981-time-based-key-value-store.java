@@ -1,5 +1,13 @@
 class TimeMap {
 
+    /**
+    The values of the cache arrive in increasing value of time
+    thus, this is an opportunity to perform a binary search based 
+    on the timestamp and find the timestamp lower or equal to the
+    requested timestamp in get(). If it's not found, return ""
+    else return the value.  
+     */
+
     class Entry {
         String value;
         int timestamp;
