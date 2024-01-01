@@ -1,6 +1,15 @@
 class Solution {
 
     /**
+
+    WINDOWING --- 
+        grow window
+        while loop and try to shrink 
+            update window size
+            update the left
+        update right
+
+    HALLMARKS OF SLIDING WINDOW
     subarray - sequential numbers
     minimal length  - minimization
     sum is greater than or equal to target - constraint
