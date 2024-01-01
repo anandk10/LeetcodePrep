@@ -1,5 +1,14 @@
 class Solution {
 
+    /**
+    
+    Every index of nums, gives two choices
+        to include - add to solution
+        to exclude - skip/remove from solution
+
+        and then call dfs again, to consider rest of the elements
+     */
+
     List<List<Integer>> result;
 
     private void dfs(int curr, int[] nums, List<Integer> solution) {
