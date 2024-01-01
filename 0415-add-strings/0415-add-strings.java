@@ -1,26 +1,32 @@
 class Solution {
-
     /**
-    WRONG assumption
-    String -> number - atoi function
+        traverse both the strings from right to left 
 
-    res = res * 10 + digit
-     */
+            while (i >= 0 && j >= 0);
 
-    // private int atoi(String num) {
+        traverse first
 
-    //     int res = 0;
-    //     int i = 0;
-    //     while (i < num.length()) {
-    //         // scan every character and convert it into a number
-    //         res = res * 10 + (num.charAt(i) - '0');
-    //         //Character.getNumericValue(num.charAt(i));
-    //         i++;
-    //     }
-    //     return res;
-    // }
+            while(i>=0);
 
-    /**
+        traverse second
+
+            while (j >= 0);
+
+        finally append carry if non zero
+        
+        COMMON LOGIC:
+            add carry to the sum, 
+            carry = sum / 10 
+            rem = sum % 10
+
+            res.append(res)
+        
+
+        SIMILAR to a problem where two linked lists are supposed to be added
+        the linked list nodes are digits 
+        the expected output is to produce a summation of two numbers
+
+
              i 
              11
             222
@@ -28,28 +34,23 @@ class Solution {
 
              33
 
-        merging of linked list with node that contains values...
-
-            
+        merging of linked list with node that contains values... 
      */
-
-
 
 
     public String addStrings(String num1, String num2) {
 
-        char[] num1Arr = num1.toCharArray();
-        char[] num2Arr = num2.toCharArray();
-
-        int i = num1Arr.length - 1;
-        int j = num2Arr.length - 1;
+        int i = num1.length() - 1; 
+        int j = num2.length() - 1;
 
         StringBuilder res = new StringBuilder();
 
         int carry = 0;
 
         while (i >=0 && j >= 0) {
-            int sum = carry + (num1Arr[i] - '0') + (num2Arr[j] - '0');
+            
+            
+            int sum = carry + (num1.charAt(i) - '0') + (num2.charAt(j) - '0');
             carry = sum / 10;
             res.append(sum % 10);
             i--;
@@ -58,7 +59,7 @@ class Solution {
 
         // process remaining num1Arr 
         while (i >= 0) {
-            int sum = carry + (num1Arr[i] - '0');
+            int sum = carry + (num1.charAt(i) - '0');
             carry = sum / 10;
             res.append(sum % 10);
             i--;
@@ -66,7 +67,7 @@ class Solution {
 
         // processing remaining num2Arr
         while (j >= 0) {
-            int sum = carry + (num2Arr[j] - '0');
+            int sum = carry + (num2.charAt(j) - '0');
             carry = sum / 10;
             res.append(sum % 10);
             j--;
