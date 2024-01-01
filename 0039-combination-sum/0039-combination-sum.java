@@ -39,7 +39,7 @@ class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         targetSum = target;
         result = new ArrayList<>();
-        Arrays.sort(candidates);
+        // Arrays.sort(candidates);
         dfs(0, candidates, 0, new ArrayList<>());
         return result;
     }
