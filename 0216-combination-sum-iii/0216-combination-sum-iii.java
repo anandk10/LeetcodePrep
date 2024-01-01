@@ -1,5 +1,19 @@
 class Solution {
 
+    /**
+    
+    Use backtracking
+    The tricker here is to understand that
+    - k is the bound of solution i.e. we are only allowed to choose k number of elements
+    - we are not repeating numbers thus we will explicitly need to define a look
+        unlike https://leetcode.com/problems/combination-sum
+            where the same number was consider again in the recursion and 
+            the next num was part of second recursive call
+
+            thus forming the loop effect.
+    - 
+     */
+
     List<List<Integer>> result;
     int targetSum ;
 
