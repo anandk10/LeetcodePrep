@@ -1,40 +1,46 @@
 class Solution {
 
     List<List<Integer>> result;
+    int targetSum;
 
+    private void dfs(int curr, int[] candidates, int currSum, List<Integer> solution) {
 
-    private void dfs (int index, List<Integer> current, int[] candidates, int remTotal) {
-        // base cases
-        if (index == candidates.length || remTotal < 0) {
+        if (currSum == targetSum) {
+            // found a solution
+            result.add(new ArrayList<>(solution));
             return;
         }
 
-        if (remTotal == 0) {
-            // got the answer
-            result.add(new ArrayList<>(current));
+        if (curr == candidates.length || currSum > targetSum) {
+            // not a solution
             return;
         }
 
-        // include the ith number
-        current.add(candidates[index]);
+        // consider the curr element again
+        solution.add(candidates[curr]);
+        // the problem states we can reuse this number
+        dfs(curr, candidates, currSum + candidates[curr], solution);
 
-        // now for other candidates, call dfs again
-        // decrement the total here, because we have included the ith number
-        dfs(index, current, candidates, remTotal - candidates[index]);
-        
-        // now the right side of the decision tree
-        // don't include the number
-        current.remove(current.size() - 1);
+        // the previous call may have found a solution or may be not
+        // so we will remove this curr element from solution and 
+        // MOVE the curr pointer because we don't want to consider the
+        // curr element ever again to ensure this number is not repeated.
+        solution.remove(solution.size() - 1);
 
-        // since the number is excluded from the consideration
-        // move the index further, also dont decrement the total
-        dfs(index + 1, current, candidates, remTotal);
+        // In essence we call dfs / backtracking by including the number ALWAYS
+        // and then call dfs/backtracking by excluding the number ALWAYS
+
+        // this call we didn't consider the curr element so we didn't add it
+        // to the currSum as well.
+        dfs(curr + 1, candidates, currSum, solution);
 
     }
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        this.result = new ArrayList<>();
-        dfs(0, new ArrayList<>(), candidates, target);
-        return this.result;
+        targetSum = target;
+        result = new ArrayList<>();
+        // Arrays.sort(candidates);
+        dfs(0, candidates, 0, new ArrayList<>());
+        return result;
     }
 }
