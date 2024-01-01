@@ -1,33 +1,46 @@
 class Solution {
 
-    List<List<Integer>> finalList;
+    /**
+    
+    Every index of nums, gives two choices
+        to include - add to solution
+        to exclude - skip/remove from solution
 
-    private void backtrack(final int[] nums, 
-                            final int curr, 
-                            final List<Integer> parentList) {
+        and then call dfs again, to consider rest of the elements
+     */
 
-        // return if no more elements to process
+    List<List<Integer>> result;
+
+    private void dfs(int curr, int[] nums, List<Integer> solution) {
+
+        // base case
         if (curr == nums.length) {
-            // List<Integer> currentList = parentList.stream().collect(Collectors.toList());
-            finalList.add(new ArrayList<>(parentList));
-            // finalList.add(currentList);
+            result.add(new ArrayList<>(solution));
             return;
         }
 
-        List<Integer> currentList = parentList;
-        // include element call
-        currentList.add(nums[curr]);
-        backtrack(nums, curr + 1, currentList);
-        
-        // Remove the last element from currentList
-        currentList.remove(currentList.size() - 1);
-        backtrack(nums, curr + 1, currentList);
+        // either add this number to the list, 
+        // because first choice is to include this number
+        solution.add(nums[curr]);
 
+        // with this number added, call dfs to consider rest of the elements
+        dfs(curr + 1, nums, solution);
+
+        // or don't add this number to the list, 
+        // because the second choice to exclude this number
+        // solution.remove(solution.size() - 1);
+        solution.removeLast();
+        
+        // with this number excluded, call dfs to consider rest of the elements
+        dfs(curr + 1, nums, solution);
     }
 
     public List<List<Integer>> subsets(int[] nums) {
-        finalList = new ArrayList<>();
-        backtrack(nums, 0, new ArrayList<>());
-        return finalList;
+        result = new ArrayList<>();
+
+        // dfs(0, nums, new ArrayList<>());
+        dfs(0, nums, new LinkedList<>());
+        return result;
+        
     }
 }
