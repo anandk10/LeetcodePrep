@@ -1,85 +1,112 @@
 class Solution {
 
     /**
-    Motivation: This calls for a windowing approach
-    Focus: Keep an eye out for the contraints 
-            where in the window we would want to satisfy
-            that the character count from t is exactly a match
-            with the character cound in s.
-
-    So utilize something called as "have" vs "need" maps
-
-    need map tells how many count of character are there in t.
-    have map will keep a track of count of characters we see in s.
+    Implementing the optimal sliding window strategy
      */
 
+    
+    public String minWindow(String s, String t) {
 
-    private String findMinimumWindowSubstring(final String s, final String t) {
+        // compute the frequency map
+        Map<Character, Integer> needMap = computeFreq(t);
 
-        // s = "ADOBECODEBANC", t = "ABC"
-        //       [   ]
+        // filter the string s
+        List<Pair> filteredS = filter(s, needMap);
 
-        // if(t.trim().isEmpty()) return "";
-
-        int left = 0, right = 0;
-        int finalLeft = 0, finalRight = -1;
-        int windowSize = Integer.MAX_VALUE;
-
-        Map<Character, Integer> haveChars = new HashMap<>();
-        Map<Character, Integer> needChars = new HashMap<>();
-        
-        for (char sChar : t.toCharArray()) {
-            needChars.put(sChar, needChars.getOrDefault(sChar, 0) + 1);
-        }
-
-        int haveCount = 0;
-        // unique characters in t
-        int needCount = needChars.size(); 
-
-        while (right < s.length()) {
-
-            char currChar = s.charAt(right);
-            haveChars.put(currChar, 1 + haveChars.getOrDefault(currChar, 0));
-
-            if (needChars.containsKey(currChar) && 
-                haveChars.get(currChar).intValue() == (int) needChars.get(currChar)) {
-                    haveCount++;
-                // System.out.println("Have count " + haveCount + " Need count " + needCount);
-            }
-
-            
-
-            // found a window that has all the character with the right counters 
-            // now shrink the window
-            while (haveCount == needCount) {
-                    
-                if (windowSize > (right - left + 1)) {
-                    // found a new min window
-                    windowSize = right - left + 1;
-                    finalLeft = left;
-                    finalRight = right;
-                }
-
-                currChar = s.charAt(left);
-                haveChars.put(currChar, haveChars.get(currChar) - 1);
-
-                // does removing the currChar actually impact and is the count less then what we need
-                if (needChars.containsKey(currChar) && haveChars.get(currChar).intValue() < (int) needChars.get(currChar)) {
-                    haveCount--;
-                }
-                left += 1;
-
-            }
-
-            right += 1;
-
-        }
-
-        return s.substring(finalLeft, finalRight + 1);
+        return minWindow(s, filteredS, needMap);
     }
 
-    public String minWindow(String s, String t) {
-        return findMinimumWindowSubstring(s, t);
-        
+    private String minWindow(String s, List<Pair> filteredS, Map<Character, Integer> needMap) {
+
+        int left = 0;
+        int right = 0;
+
+        int finalLeft = -1;
+        int finalRight = -1;
+        int windowSize = Integer.MAX_VALUE;
+
+        int needCount = needMap.size();
+
+        Map<Character, Integer> haveMap = new HashMap<>();
+        int haveCount = 0;
+
+        while (right < filteredS.size()) {
+
+            // growing window
+            char currCh = filteredS.get(right).ch;
+
+            // we already have filtered based on the needMap
+            // update the haveMap
+            haveMap.put(currCh, haveMap.getOrDefault(currCh, 0) + 1);
+
+            if (haveMap.get(currCh) == (int) needMap.get(currCh)) {
+                haveCount += 1;
+            }
+
+            // shrinking window
+            while (haveCount == needCount) {
+
+                Pair windowEnd = filteredS.get(right);
+                Pair windowStart = filteredS.get(left);
+
+                // update the finalLeft and finalRight
+                if (windowSize > (windowEnd.index - windowStart.index + 1)) {
+                    windowSize = windowEnd.index - windowStart.index + 1;
+                    finalLeft = windowStart.index;
+                    finalRight = windowEnd.index;
+                }
+
+                // moving the left pointer
+                left += 1;
+                
+                currCh = windowStart.ch;
+                // update the haveMap and decrement the value by 1
+                int newVal = haveMap.get(currCh) - 1;
+                haveMap.put(currCh, newVal);
+
+                // goes below the required threshold
+                if (haveMap.get(currCh) < needMap.get(currCh)) {
+                    haveCount -= 1;
+                }
+                
+                
+            }
+            
+            right += 1;
+        }
+
+        return windowSize == Integer.MAX_VALUE ? "" : s.substring(finalLeft, finalRight + 1);
+
+    }
+
+
+    private Map<Character, Integer> computeFreq(String t) {
+        Map<Character, Integer> needMap = new HashMap<>();
+        for (char ch : t.toCharArray()) {
+            needMap.put(ch, needMap.getOrDefault(ch, 0) + 1);
+        }
+        return needMap;
+    }
+
+    private List<Pair> filter(String s, final Map<Character, Integer> needMap) {
+        List<Pair> filteredS = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (needMap.containsKey(s.charAt(i))) {
+                filteredS.add(new Pair(s.charAt(i), i));
+            }
+        }
+        return filteredS;
+    }
+
+
+    class Pair {
+        char ch;
+        int index;
+        Pair(char ch, int index) {
+            this.ch = ch;
+            this.index = index;
+        }
+
+        public String toString() { return "(" + ch + ", " + index + ")"; }
     }
 }
