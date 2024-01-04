@@ -5,9 +5,16 @@ class Solution {
     // -2,-2 1
 
     // √(x1 - x2)2 + (y1 - y2)2
+    // private int computeDist(final int[] pointA) {
+    //     return (int) Math.pow((0 - pointA[0]), 2) + (int) Math.pow((0 - pointA[1]), 2);
+    // }
+
     private int computeDist(final int[] pointA) {
-        return (int) Math.pow((0 - pointA[0]), 2) + (int) Math.pow((0 - pointA[1]), 2);
+
+        return ( pointA[0] * pointA[0] ) + ( pointA[1] * pointA[1]);
+        // return (int) Math.pow((0 - pointA[0]), 2) + (int) Math.pow((0 - pointA[1]), 2);
     }
+
 
 
     public int[][] kClosest(int[][] points, int k) {
@@ -32,4 +39,13 @@ class Solution {
 
         return result;
     }
+
+
+    // kClosest() {
+
+    //     queue = new
+    //     iterate over all points
+    //     offer to the queue
+    //     [x,y,dist(x,y)]
+    // }
 }
