@@ -68,9 +68,6 @@ class Solution {
     }
     
     public int search(int[] nums, int target) {
-        
         return binarySearchRotatedArray(nums, target);
-        
-        
     }
 }
