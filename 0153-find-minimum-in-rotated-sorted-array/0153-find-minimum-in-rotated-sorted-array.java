@@ -18,7 +18,7 @@ class Solution {
                 return nums[mid];
             }
             
-            if (nums[0] < nums[mid]) {
+            if (nums[left] < nums[mid]) {
                 // explore the right part
                 left = mid + 1;
             } else {
