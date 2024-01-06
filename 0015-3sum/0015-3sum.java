@@ -1,11 +1,28 @@
 class Solution {
+
+    /**
+    SORT the incoming array
+    Anchor a number; new targetSum = -num[i]
+    if its not the first number; 
+        then check for adjacent DUPLICATES 
+            and increment i 
+            and continue
+    
+    
+    then rest of the array (i + 1) is the search space 
+    for two numbers adding upto -num[i]
+    use TWO POINTERs
+    make sure to reduce the search space even further 
+    by comparing the adjacent numbers for duplicates
+    from both the ends.
+
+     */
     public List<List<Integer>> threeSum(int[] nums) {
         
         Arrays.sort(nums);
-        final int N = nums.length - 1;
         List<List<Integer>> result = new ArrayList<>();
 
-        for (int i = 0; i < N - 1; i++) {
+        for (int i = 0; i < nums.length - 2; i++) {
 
             // not the first element and same as previous element
             if (i > 0 && nums[i - 1] == nums[i]) {
@@ -13,7 +30,7 @@ class Solution {
             }
 
             int j = i + 1;
-            int k = N;
+            int k = nums.length - 1;
             int targetSum = 0 - nums[i];
 
             while (j < k) {
