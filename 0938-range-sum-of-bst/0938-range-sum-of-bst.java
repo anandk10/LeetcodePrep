@@ -15,23 +15,42 @@
  */
 class Solution {
 
-    private int solution1(TreeNode root, int low, int high) {
+    private int rangeSum(TreeNode root, int low, int high) {
         if (root == null) { return 0; }
 
-        int currSum = 0;
-
-        if (low <= root.val && root.val <= high) {
-            currSum += root.val;
+        if (root.val < low) {
+            // current node val is out of the low range
+            // so dont explore left any more
+            // go to the right
+            return rangeSum(root.right, low, high);
         }
 
-        return currSum + 
-                        solution1(root.left, low, high)
-                        +
-                        solution1(root.right, low, high);
+        if (root.val > high) {
+            // current node val is out of the high range
+            // so dont explore right any more
+            // go to the left
+            return rangeSum(root.left, low, high);
+        }
 
+        return root.val + rangeSum(root.left, low, high) + rangeSum(root.right, low, high);
     }
 
+    // private int rangeSum(TreeNode root, int low, int high) {
+    //     // Alternate Solution
+
+
+    //     int currSum = 0;
+
+    //     if (low <= root.val && root.val <= high) {
+    //         currSum += root.val;
+    //     }
+
+    //     return currSum 
+    //             + rangeSum(root.left, low, high)
+    //             + rangeSum(root.right, low, high);
+    // }
+
     public int rangeSumBST(TreeNode root, int low, int high) {
-        return solution1(root, low, high);
+        return rangeSum(root, low, high);
     }
 }
