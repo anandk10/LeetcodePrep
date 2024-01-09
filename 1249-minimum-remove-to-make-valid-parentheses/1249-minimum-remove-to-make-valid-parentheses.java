@@ -1,3 +1,15 @@
+/**
+ * 
+    The Solution class implements a method to remove the minimum number of 
+    parentheses from a given string to make it valid.
+
+    It utilizes a STACK to keep track of the indices of opening parentheses 
+    and marks unmatched closing parentheses with a tombstone ('#') character. 
+    
+    Finally, it constructs and returns the modified string without the marked
+    parentheses.
+ */
+
 class Solution {
 
     public String minRemoveToMakeValid(String s) {
