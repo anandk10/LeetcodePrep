@@ -40,9 +40,44 @@ class Solution {
 
     }
 
+    private void singlePass(int[] nums) {
+        // Take left , right and ith pointer
+        // left pointer makes sure that the values
+        // on the left are 0
+        // right pointer makes sure that the values
+        // on the right are 2
+        // ith pointer ignores the 1 values
+        // but swaps with left if value is 0
+        // and swaps with right if value is 2
+        
+        int i = 0, left = 0;
+        int right = nums.length - 1;
+        while ( i <= right ) {
+
+            if (nums[i] == 0) {
+                swap(nums, i, left);
+                left += 1;
+            } else if (nums[i] == 2) {
+                swap(nums, i, right);
+                right -= 1;
+                i -= 1;
+            }
+
+            i += 1;
+        }
+
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
 
     public void sortColors(int[] nums) {
-        twoPass(nums);
-        
+        // twoPass(nums);
+        singlePass(nums);
+
     }
 }
