@@ -1,6 +1,10 @@
 class Solution {
     /**
-    Manacher's algorithm - O(N)
+    Find palindrome using outward expansion technique
+    be at i (left = i, right = i), and then start looking at left and right indexes. and keep
+    on going until you hit different character
+
+    for even palindrome (left = i, right = i + 1), and carry out the same process. 
      */
     public String longestPalindrome(String s) {
 
