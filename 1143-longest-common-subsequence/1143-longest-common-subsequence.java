@@ -1,4 +1,11 @@
 class Solution {
+    /**
+    Recurrence Relation:
+
+    dp[i][j] represents the length of the LCS between the suffixes text1[i:] and text2[j:].
+    If text1[i] == text2[j], then dp[i][j] = 1 + dp[i + 1][j + 1].
+    If text1[i] != text2[j], then dp[i][j] = max(dp[i][j + 1], dp[i + 1][j]).
+     */
     public int longestCommonSubsequence(String text1, String text2) {
 
         char[] t1 = text1.toCharArray();
@@ -24,16 +31,6 @@ class Solution {
 
             }
         }
-
-
-
         return dp[0][0];
-
-
-
-    
-
-
-        
     }
 }
