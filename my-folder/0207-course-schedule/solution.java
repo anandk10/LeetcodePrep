@@ -49,7 +49,7 @@ class Solution {
         Map<Integer, List<Integer>> prereqMap = new HashMap<>();
         // create a prereq map to tracking prereq for all courses
         for (int course = 0; course < numCourses; course++) {
-            prereqMap.computeIfAbsent(course, ArrayList<Integer>::new);
+            prereqMap.computeIfAbsent(course, c -> new ArrayList<>());
         }
 
         // populate the prerep map with the prereq courses
