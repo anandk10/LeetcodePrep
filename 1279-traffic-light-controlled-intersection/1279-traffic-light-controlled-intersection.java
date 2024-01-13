@@ -1,3 +1,12 @@
+/**
+TrafficLight class needs to remember the **currentRoad**
+Solution 1: Use a semaphore to make sure the critical section is guarded.
+- carArrived() - acquireUninterruptibly() and release()
+Solution 2: Use a ReentrantLock - use lock() and unlock() to enter and exit critical sections.
+
+
+*/
+
 class TrafficLight {
 
     int currentRoad;
