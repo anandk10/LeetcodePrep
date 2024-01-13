@@ -2,12 +2,12 @@ class TrafficLight {
 
     int currentRoad;
     // Semaphore semaphore;
-    ReentrantLock lock;
+    Lock lock;
 
     public TrafficLight() {
         this.currentRoad = 1; 
         // this.semaphore = new Semaphore(1);
-        lock = new ReentrantLock();   
+        lock = new ReentrantLock(true); // true indicates fairness   
     }
     
     /** Using ReentrantLock */
