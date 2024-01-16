@@ -1,5 +1,9 @@
 import java.util.NavigableMap;
 
+/**
+DLL - <to store the stack>
+NavigableMap - TreeMap to store <MaxNum,<Node of DLL>>
+ */
 class MaxStack {
 
     // DLL
