@@ -3,17 +3,21 @@ import static java.util.function.Predicate.not;
 class Solution {
 
     /**
-    
+    HINT: If the graph is not bipartite, it is not possible to group the nodes.
+    bipartite graph: a graph which contains even length of cycle
+                if the cycle is odd length then the graph is not bipartite
+
     1. Form a graph by traversing the edges
     2. Then find all the connected components by traversing elements
     3. Perform BFS on every node of every connected graph and 
         use graph coloring in order to
         detect ODD length cycle. 
         3.1 if there is an ODD length cycle, then the output is
-            impossible so return -1 for this connection graph
-    4. Keep computing the levels for every node and rec
-    
-    
+            impossible so return -1 for this graph
+        3.2 Store the max length amongst the nodes
+    4. Add the maxLength to the result and repeat step 3 and 4 until
+        all connected components are not exhausted
+    5. return the sum result
      */
 
     private Map<Integer, List<Integer>> formGraph(int n, int[][] edges) {
