@@ -1,24 +1,19 @@
+/**
+Given a reference point (x, y) and a list of points.
+- Iterate through each point in the list.
+- Check if the point is valid (matching either x or y).
+- Compute Manhattan distance from the reference point.
+- Track the index of the nearest valid point found so far.
+- Return the index of the nearest valid point, or -1 if none found.
+
+ */
+
 class Solution {
     public int nearestValidPoint(int x, int y, int[][] points) {
         
         int minDist = Integer.MAX_VALUE;
         int idx = -1;
         int res = -1;
-        // iterate
-        // if valid
-        // compute manhattan dist
-        // check if minimum? update the index
-
-        // for (int[] point : points) {
-        //     idx += 1;
-        //     if (isValid(x, y, point)) {
-        //         int currDist = computeManhattanDistance(x, y, point);
-        //         if (currDist < minDist) {
-        //             minDist = currDist;
-        //             res = idx;
-        //         } 
-        //     } 
-        // }
 
         for (int i = 0; i < points.length; i++) {
             if (isValid(x, y, points[i])) {
