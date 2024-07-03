@@ -26,7 +26,6 @@ class Solution {
       //    lr   (leftMax = 1, rightMax = 1, res = 0)
 
       while (left < right) {
-        
         if(leftMax < rightMax) {
           left += 1;
           leftMax = Math.max(leftMax, height[left]);
