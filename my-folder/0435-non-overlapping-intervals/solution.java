@@ -17,7 +17,7 @@ class Solution {
         // remove the interval that has the max end time, 
         // since that would avoid any future overlaps
         for(int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] >= prevEnd) {
+            if (prevEnd <= intervals[i][0]) {
                 // non overlapping
                 // curr interval's start is equal or greater
                 // than previous end time
